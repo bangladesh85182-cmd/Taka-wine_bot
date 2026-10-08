@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taka Win Mini App</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- User Profile & Balance -->
+    <div class="user-card">
+      <div class="user-info">
+        <h3 id="user-name">User Name</h3>
+        <p id="user-id">UID: Loading...</p>
+      </div>
+      <div class="balance-box">
+        <span>BALANCE</span>
+        <h2 id="balance-amount">৳0.00</h2>
+      </div>
+    </div>
+
+    <!-- Refer Link Box -->
+    <div class="refer-card">
+      <p>👥 প্রতি রেফারে পাবেন: <b>৳১০.০০</b></p>
+      <button class="btn-primary" onclick="copyReferLink()">রেফার লিংক কপি করুন</button>
+    </div>
+
+    <!-- Daily Ads Section -->
+    <div class="section">
+      <h3>📺 বিজ্ঞাপন দেখে আয় (প্রতি অ্যাডে ৳২.০০)</h3>
+      <div class="task-card" onclick="watchAd()">
+        <div>
+          <h4>Ad Slot 1</h4>
+          <p>অ্যাড দেখে ৳২ আয় করুন</p>
+        </div>
+        <button class="btn-task">Watch Ad</button>
+      </div>
+    </div>
+
+    <!-- Tasks Section -->
+    <div class="section">
+      <h3>📋 টাস্ক কমপ্লিট (প্রতি টাস্কে ৳২.০০)</h3>
+      <div class="task-card" onclick="completeTask('Telegram Channel')">
+        <div>
+          <h4>Telegram Channel Join</h4>
+          <p>চ্যানেলে জয়েন করে ৳২ আয় করুন</p>
+        </div>
+        <button class="btn-task">Complete</button>
+      </div>
+    </div>
+
+    <!-- Withdraw Section -->
+    <div class="section withdraw-section">
+      <h3>💸 টাকা তুলুন (সর্বনিম্ন উইথড্র ৳১০০)</h3>
+      
+      <label for="method">পেমেন্ট মেথড সিলেক্ট করুন:</label>
+      <select id="method">
+        <option value="bkash">bKash (বিকাশ)</option>
+        <option value="nagad">Nagad (নগদ)</option>
+      </select>
+
+      <label for="phone">বিকাশ/নগদ নম্বর:</label>
+      <input type="text" id="phone" placeholder="017XXXXXXXX">
+
+      <label for="amount">টাকার পরিমাণ (সর্বনিম্ন ৳১০০):</label>
+      <input type="number" id="amount" placeholder="100">
+
+      <button class="btn-withdraw" onclick="processWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+body {
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 12px;
+  color: #333;
+}
+
+.app-container {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.user-card {
+  background: linear-gradient(135deg, #0088cc, #005580);
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-box {
+  text-align: right;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.balance-box h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.refer-card {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.section {
+  margin-top: 15px;
+}
+
+.section h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.task-card {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.task-card h4 {
+  margin: 0 0 4px 0;
+}
+
+.task-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #777;
+}
+
+.btn-primary, .btn-task, .btn-withdraw {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: #0088cc;
+  color: white;
+  padding: 8px 15px;
+  width: 100%;
+}
+
+.btn-task {
+  background: #28a745;
+  color: white;
+  padding: 8px 12px;
+}
+
+.withdraw-section {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.withdraw-section label {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.withdraw-section input, .withdraw-section select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.btn-withdraw {
+  background: #e91e63;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  font-size: 15px;
+}
+// Telegram WebApp Initialization
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+// Initial Balance Variable
+let currentBalance = 0.00;
+let userId = "000000";
+
+// Telegram User Data Load
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+  const user = tg.initDataUnsafe.user;
+  document.getElementById('user-name').innerText = user.first_name;
+  userId = user.id;
+  document.getElementById('user-id').innerText = `UID: ${userId}`;
+}
+
+// Function to update screen balance
+function updateBalanceDisplay() {
+  document.getElementById('balance-amount').innerText = `৳${currentBalance.toFixed(2)}`;
+}
+
+// 1. Watch Ad (Earn ৳2)
+function watchAd() {
+  // এখানে আপনার Monetag / Adsterra অ্যাড এর কোড রান হবে
+  alert("বিজ্ঞাপন দেখা সম্পন্ন হয়েছে! আপনার ওয়ালেটে ৳২.০০ যোগ করা হয়েছে।");
+  currentBalance += 2.00;
+  updateBalanceDisplay();
+}
+
+// 2. Complete Task (Earn ৳2)
+function completeTask(taskName) {
+  alert(`${taskName} টাস্ক সফলভাবে সম্পন্ন হয়েছে! আপনার ওয়ালেটে ৳২.০০ যোগ করা হয়েছে।`);
+  currentBalance += 2.00;
+  updateBalanceDisplay();
+}
+
+// 3. Referral Link Copy (Earn ৳10 setup)
+function copyReferLink() {
+  const referLink = `https://t.me/YourBotUsername?start=${userId}`;
+  navigator.clipboard.writeText(referLink);
+  alert("আপনার রেফারেল লিংক কপি করা হয়েছে! বন্ধুক শেয়ার করলে প্রতি রেফারে ৳১০ পাবেন।");
+}
+
+// 4. Withdraw Process (Minimum ৳100, bKash & Nagad)
+function processWithdraw() {
+  const method = document.getElementById('method').value;
+  const phone = document.getElementById('phone').value;
+  const amount = parseFloat(document.getElementById('amount').value);
+
+  // Validation Check
+  if (!phone || phone.length < 11) {
+    alert("দয়া করে একটি সঠিক বিকাশ বা নগদ নম্বর লিখুন।");
+    return;
+  }
+
+  if (isNaN(amount) || amount < 100) {
+    alert("সর্বনিম্ন উইথড্র পরিমাণ ৳১০০ টাকা।");
+    return;
+  }
+
+  if (amount > currentBalance) {
+    alert("আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই!");
+    return;
+  }
+
+  // Deduct Balance and Submit
+  currentBalance -= amount;
+  updateBalanceDisplay();
+
+  alert(`আপনার ৳${amount} টাকার উইথড্র রিকোয়েস্ট (${method.toUpperCase()}: ${phone}) সফলভাবে গৃহীত হয়েছে। ২৪ ঘণ্টার মধ্যে পেমেন্ট সম্পন্ন হবে।`);
+  
+  // Clear Input Fields
+  document.getElementById('phone').value = '';
+  document.getElementById('amount').value = '';
+}
